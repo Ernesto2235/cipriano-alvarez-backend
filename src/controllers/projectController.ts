@@ -37,7 +37,7 @@ export async function getProjects(req: express.Request, res: express.Response) {
         if(!projects || projects.length === 0){
             return res.status(404).json({error:"No projects found"});
         }
-        console.log("projects:", projects)
+        
         return res.status(200).json({project:projects});
     }catch (error) {
         console.error("Error fetching all projects:", error);

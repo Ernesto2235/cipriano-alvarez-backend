@@ -46,7 +46,7 @@ export async function createProject(name: string, description: string, img_url: 
 export async function getProjectById(id: number) {
     try{
     const project = await Project.findOne({ where: { id } });
-    console.log("Project found:", project);
+    
     return project;
     }catch(error){
         console.log("database error:", error)
