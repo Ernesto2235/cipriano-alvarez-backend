@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start:dev": "NODE_ENV=dev npm install && nodemon",
-    "start:prod":"NODE_ENV=prod npm install && npm run build",
+    "start:prod":"NODE_ENV=prod node src/app.js",
     "test": "jest"
   },
   "author": "Cipriano Alvarez",
