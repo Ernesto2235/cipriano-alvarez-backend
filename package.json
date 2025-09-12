@@ -5,8 +5,8 @@
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "start:dev": "NODE_ENV=dev npm install && nodemon",
-    "start:prod":"NODE_ENV=prod node src/app.js",
+    "start":"node src/app.js",
+    "dev":"nodemon",
     "test": "jest"
   },
   "author": "Cipriano Alvarez",
