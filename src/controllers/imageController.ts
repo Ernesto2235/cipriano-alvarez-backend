@@ -4,7 +4,7 @@ import  Express  from "express"
 
 export async function getImage(req: Express.Request,res:Express.Response){
     const filename = req.params.filename;
-    const imagePath = "./images/"+filename
+    const imagePath = "/app/images/"+filename
     // fs.readFile(imagePath,(error,data)=>{
     //     if(error){
     //         console.log("error getting picture",error)
