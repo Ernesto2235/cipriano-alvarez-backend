@@ -26,7 +26,7 @@ export async function getProject(req: express.Request, res: express.Response   )
     }
 }
 export async function getProjects(req: express.Request, res: express.Response) {
-    
+    console.log("getProjects called");
     try {
         const {secret} = req.params;
         if(secret !== process.env.APP_SECRET || !secret){
