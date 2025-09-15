@@ -60,7 +60,7 @@ export async function login(req:Express.Request, res:Express.Response) {
         if(!isPasswordValid){
             return res.status(401).json({error:"Invalid password"});
         }
-        // Here you would typically create a session or JWT token
+        
         res.status(200).json({message:"Login successful", userId: user.id});
     }catch (error) {
         console.error("Error during login:", error);
