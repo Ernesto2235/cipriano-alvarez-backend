@@ -60,11 +60,11 @@ app.use(express.urlencoded({extended:true}))
 app.use(compression())
 app.use(cookieParser());
 
-
+const PORT = process.env.PORT || 3001
 
 export const server = http.createServer(app);
-server.listen(3001, () => {
-    console.log("Server is running on port 3001");
+server.listen(PORT, () => {
+    console.log("Server is running on port "  + PORT);
 });
 
 app.use("/",Router());

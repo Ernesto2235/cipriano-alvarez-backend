@@ -7,6 +7,7 @@ const router = express.Router();
 
 export default function Router() : express.Router {
     // Initialize the authentication and project routers
+    
     authRouter(router);
     projectRouter(router);
     imageRouter(router)
