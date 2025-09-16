@@ -3,6 +3,10 @@ import  Express  from "express"
 
 
 export async function getImage(req: Express.Request,res:Express.Response){
+    try{
+    if(!req.params.filename){
+        return res.status(400).send("Filename is required");
+    }
     const filename = req.params.filename;
     const imagePath = "/app/images/"+filename
     // fs.readFile(imagePath,(error,data)=>{
@@ -20,6 +24,8 @@ export async function getImage(req: Express.Request,res:Express.Response){
             console.log("error sending image",err);
             res.status.apply(404).send("image not found");
         }
-    })
+    })}catch(error){
+        res.status(500).send("Server error");
+    }
 
 }
