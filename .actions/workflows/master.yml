@@ -1,0 +1,32 @@
+  name: Build & Deploy backend
+
+  on:
+    push:
+      branches:
+        - master
+
+  jobs:
+    build-deploy:
+      name: Build and Deploy Backend for portfolio
+      runs-on: ubuntu-24.04
+      steps:
+        - name: checkout code
+          uses: actions/checkout@v5
+
+        - name: Setup Nodejs
+          uses: actions/setup-node@v5
+          with: 
+            node-version: 24.5.0
+
+        - name: Unit Tests
+          run: cd backend && npm install && npm test
+
+        - name: Build the application
+          run: |
+            curl https://cli-assets.heroku.com/install.sh | sh
+        - uses: akhileshns/heroku-deploy@v3.14.15
+          with:
+            heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+            heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+            heroku_email: ${{secrets.HEROKU_EMAIL}}
+            
