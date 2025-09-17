@@ -19,7 +19,7 @@
             node-version: 24.5.0
 
         - name: Unit Tests
-          run: cd backend && npm install && npm test
+          run: npm install && npm test
 
         - name: Build the application
           run: |
