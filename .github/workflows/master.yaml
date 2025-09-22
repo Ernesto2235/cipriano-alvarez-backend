@@ -39,7 +39,7 @@
               sleep 5
             done
         - name: Import sql file
-          run: mysql --host=0.0.0.0 -u=root -p{{secrets.MYSQL_ROOT_PASSWORD}} portfolio < test.sql
+          run: mysql --host=0.0.0.0 -u=root -p{{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows
 
 
         - name: Setup Nodejs
