@@ -18,7 +18,8 @@
           env:
             MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
             MYSQL_DATABASE: portfolio
-            MYSQL_USER: root
+            MYSQL_USER: ernesto
+            MYSQL_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
 
           options: >-
             --health-cmd "mysqladmin ping --silent"
@@ -40,7 +41,7 @@
               sleep 5
             done
         - name: Import sql file
-          run: mysql --host=0.0.0.0 -uroot -p{{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows/test.sql
+          run: mysql --host=0.0.0.0 -uernesto -p{{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows/test.sql
 
 
         - name: Setup Nodejs
