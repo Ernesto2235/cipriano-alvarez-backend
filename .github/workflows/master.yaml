@@ -18,6 +18,7 @@
           env:
             MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
             MYSQL_DATABASE: portfolio
+            MYSQL_USER: root
 
           options: >-
             --health-cmd "mysqladmin ping --silent"
