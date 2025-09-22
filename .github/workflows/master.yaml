@@ -41,7 +41,7 @@
               sleep 5
             done
         - name: Import sql file
-          run: mysql --host=0.0.0.0 -uernesto -p{{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows/test.sql
+          run: mysql --host=0.0.0.0:3306 -P-uroot -p{{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows/test.sql
 
 
         - name: Setup Nodejs
