@@ -23,11 +23,10 @@
               --health-interval 10s
               --health-timeout 5s
               --health-retries 10
-      app:
-        build: .
-        depends-on:
-          mysql:
-            condition: service-healthy
+      build: .
+      depends-on:
+        mysql:
+          condition: service-healthy
       steps:
         - name: checkout code
           uses: actions/checkout@v5
