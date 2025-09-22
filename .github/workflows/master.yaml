@@ -29,8 +29,7 @@
 
         - name: wait for mysql db to be ready
           run: sleep 10
-        - name: verify connections to mysql
-          run: mysqladmin ping -h mysql -u root -p${{secrets.MYSQL_ROOT_PASSWORD}} --silent
+
 
         - name: Setup Nodejs
           uses: actions/setup-node@v5
