@@ -19,7 +19,7 @@
             ports:
               -3306:3306
             options: >-
-              --health-cmd "mysqladmin ping -h 127.0.0.1 -u root -p${{secrets.MYSQL_ROOT_PASSWORD}}"
+              --health-cmd "mysqladmin ping --silent"
               --health-interval 10s
               --health-timeout 5s
               --health-retries 10
@@ -28,7 +28,15 @@
           uses: actions/checkout@v5
 
         - name: wait for mysql db to be ready
-          run: sleep 10
+          run: |
+            for i in $(seq 1 10); do
+              if nc -z localhost 3306; then
+                echo "MySQL is ready!"
+                break
+              fi
+              echo "Waiting for MySQL..."
+              sleep 5
+            done
 
 
         - name: Setup Nodejs
@@ -39,7 +47,7 @@
         - name: Unit Tests
           run: npm install && npm test -- --runInBand
           env:
-            DB_HOST: 127.0.0.1
+            DB_HOST: localhost
             DB_USER: root
             DB_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
             DB_NAME: portfolio
