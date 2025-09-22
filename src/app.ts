@@ -8,12 +8,13 @@ import dotenv from "dotenv";
 
 import { Sequelize } from "@sequelize/core";
 import { MySqlDialect } from "@sequelize/mysql"
-import Router from "./router/index";
-import { User } from "./modelsTS/User";
-import { Project } from "./modelsTS/ProjectModel";
+import Router from "./router/index.ts";
+import { User } from "./modelsTS/User.ts";
+import { Project } from "./modelsTS/ProjectModel.ts";
 import  Multer  from "multer";
 import multer from "multer";
 import path from "path"
+import { start } from "repl";
 
 
 
@@ -30,7 +31,7 @@ export const sequelize = new Sequelize({
     models: [User,Project], // Register your models here
 });
 
-async function DatabaseConnection() {
+export async function DatabaseConnection() {
     try {
         await sequelize.authenticate();
         console.log('Database connection has been established successfully.');
@@ -63,8 +64,12 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 3001
 
 export const server = http.createServer(app);
-server.listen(PORT, () => {
+
+
+export async function startServer(){
+    server.listen(PORT, () => {
     console.log("Server is running on port "  + PORT);
 });
-
+}   
+startServer();
 app.use("/",Router());

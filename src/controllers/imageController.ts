@@ -8,16 +8,7 @@ export async function getImage(req: Express.Request,res:Express.Response){
         return res.status(400).send("Filename is required");
     }
     const filename = req.params.filename;
-    const imagePath = "/app/images/"+filename
-    // fs.readFile(imagePath,(error,data)=>{
-    //     if(error){
-    //         console.log("error getting picture",error)
-    //         return res.status(404).send("Image not found");
-    //     }
-    //     let fileExt = filename.split(".").pop();
-    //     res.writeHead(200,{"Content-Type":"image/"+fileExt})
-    //     res.end(data);
-    // })
+    const imagePath = process.env.IMAGE_PATH+filename
 
     res.sendFile(imagePath,(err)=>{
         if(err){

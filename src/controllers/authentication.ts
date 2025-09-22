@@ -1,6 +1,7 @@
 import   Express  from "express";
-import {createUser} from "../modelsTS/User";
-import {getUserByEmail} from "../modelsTS/User";
+import {createUser} from "../modelsTS/User.ts";
+import {getUserByEmail} from "../modelsTS/User.ts";
+import { deleteUserByEmail } from "../modelsTS/User.ts";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 
@@ -8,12 +9,13 @@ import { validationResult } from "express-validator";
 export async function register(req:Express.Request, res:Express.Response) {
     
     const result = validationResult(req);
+    
     if(!result.isEmpty()){
         return res.status(400).json({errors: result.array()})
     }
     try{
         const{email,password,secret} = req.body;
-
+        
 
         if(!email || !password){
             return res.status(400).json({error:"Email and password are required"});
@@ -27,7 +29,7 @@ export async function register(req:Express.Request, res:Express.Response) {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await createUser(email, hashedPassword);
-        res.sendStatus(201).json({message:"User registered successfully", userId: newUser.id});
+        res.status(201).json({message:"User registered successfully", userId: newUser.id});
     }catch (error) {
         console.error("Error during registration:", error);
         res.sendStatus(400)
@@ -48,8 +50,6 @@ export async function login(req:Express.Request, res:Express.Response) {
             return res.status(400).json({error:"Email and password are required"});
         }
         if(!secret || secret !== process.env.APP_SECRET){
-            console.log(process.env.APP_SECRET);
-            console.log(secret);
             return res.status(403).json({error:"Invalid secret"});
         }
         const user = await getUserByEmail(email);
@@ -65,5 +65,30 @@ export async function login(req:Express.Request, res:Express.Response) {
     }catch (error) {
         console.error("Error during login:", error);
         res.sendStatus(400)
+    }
+}
+export async function deleteUser(req:Express.Request, res:Express.Response){
+    try{
+        const result = validationResult(req);
+        
+        if(!result.isEmpty()){
+            return res.status(400).json({errors: result.array()})
+        }
+
+        const {email,secret} = req.params;
+        if(!email){
+            return res.status(400).json({error:"Email is required"});
+        }
+        if(!secret || secret !== process.env.APP_SECRET){
+            return res.status(403).json({error:"Invalid secret"});
+        }
+        let deleteResult = await deleteUserByEmail(email);
+        if(deleteResult === 0){
+            return res.status(404).json({error:"user not found"})
+        }
+        return res.status(200).json({messesage:"user was deleted successfully"})
+
+    }catch(error){
+        res.sendStatus(500).json({error:"Internal server error"})
     }
 }

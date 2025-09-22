@@ -8,7 +8,12 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "target": "ES2024",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "isolatedModules":true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions":true,
+
   },
   "include": [
     "src/**/*"

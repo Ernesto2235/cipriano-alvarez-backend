@@ -1,6 +1,7 @@
-import { getProjectById, Project } from "../modelsTS/ProjectModel";
-import { getAllProjects } from "../modelsTS/ProjectModel";
-import { createProject } from "../modelsTS/ProjectModel";
+import { getProjectById, Project } from "../modelsTS/ProjectModel.ts";
+import { getAllProjects } from "../modelsTS/ProjectModel.ts";
+import { createProject } from "../modelsTS/ProjectModel.ts";
+import { deleteProjectByName } from "../modelsTS/ProjectModel.ts";
 import express from "express";
 import multer from "multer";
 import * as fs from "fs"
@@ -46,13 +47,14 @@ export async function getProjects(req: express.Request, res: express.Response) {
 }
 export async function createNewProject(req: express.Request ,res: express.Response) {
     try {
-        const file = req.file; // Multer puts the file here
-        const filePath = file.path;
+        
+        const file = req.file;// Multer puts the file here
 
         if(!file) {
             console.error("No file uploaded",file);
             return res.status(400).json({error: "Image file is required"});
         }
+        const filePath = file.path;
 
         const result = validationResult(req);
         if(!result.isEmpty()){
@@ -94,7 +96,31 @@ export async function createNewProject(req: express.Request ,res: express.Respon
         }else{
         res.status(201).json({message: "Project created successfully", projectId: newProject.id})};
     } catch (error) {
-        console.error("Error creating project:", error);
+        console.log("Error creating project:", error);
         return res.status(500).json({error: "Internal server error"});
+    }
+}
+
+export async function deleteProject(req: express.Request,res: express.Response){
+    try{
+        let result = validationResult(req);
+        if(!result.isEmpty()){
+            return res.status(400).json({errors: result.array()})
+        }
+        const {name,secret} = req.params;
+        if(secret !== process.env.APP_SECRET || !secret){
+            return res.status(403).json({error:"Invalid secret"});
+        }
+        if(!name){
+            return res.status(400).json({error:"Project Name is required"});
+        }
+        const response = await deleteProjectByName(name);
+        if(response === 0){
+            return res.status(404).json({error:"Project not found"})
+        }
+        return res.status(200).json({message:"Project was deleted successfully"})
+
+    }catch(error){
+        return res.status(500).json({error: "Internal server error",sysError:error});
     }
 }

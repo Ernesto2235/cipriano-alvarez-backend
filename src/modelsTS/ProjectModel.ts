@@ -1,7 +1,7 @@
 
 import  { DataTypes,Model,Sequelize, InferAttributes,InferCreationAttributes }  from '@sequelize/core';
 import { Attribute,PrimaryKey,AutoIncrement,NotNull,Table } from '@sequelize/core/decorators-legacy';
-
+import * as fs from "fs";
 
 
 @Table({ tableName: 'projects' }) // Specify the table name if different
@@ -35,7 +35,6 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
 export async function createProject(name: string, description: string, img_url: string, project_url: string | null, date: string | null) {
     try {const newProject = await Project.build({ name, description, img_url, project_url, date });
     await newProject.save();
-    console.log("Project created successfully:", newProject);
     return newProject
     }catch(error){
         console.log("database error:", error)
@@ -63,4 +62,23 @@ export async function getAllProjects() {
     console.log("database error:", error)
     return ( {status: 500,error:error})
 }
+}
+export async function deleteProjectByName(name: string){
+    try{
+        let project = await Project.findOne({where:{name:name}})
+        let imagePath = process.env.IMAGE_PATH+"/"+project.img_url;
+        fs.unlink(imagePath,(err)=>{
+            if(err){
+                console.log("error deleting file:",err)
+                return {status:500, errro:err}
+            }
+            else{
+                console.log("image file deleted successfully")}
+        })
+        const res = await Project.destroy({where:{name:name}});
+        return res;
+    }catch(error){
+        console.log("database error:",error)
+        return({status:500,error:error})
+    }
 }

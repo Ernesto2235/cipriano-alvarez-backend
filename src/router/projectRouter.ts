@@ -1,7 +1,8 @@
 import express from 'express';
-import {getProject} from '../controllers/projectController';
-import {getProjects} from '../controllers/projectController';
-import {createNewProject} from '../controllers/projectController';
+import {getProject} from '../controllers/projectController.ts';
+import {getProjects} from '../controllers/projectController.ts';
+import {createNewProject} from '../controllers/projectController.ts';
+import {deleteProject} from '../controllers/projectController.ts';
 import multer from 'multer';
 import path from 'path'
 import {body} from "express-validator"
@@ -32,6 +33,7 @@ const upload = multer({
 // If the file is not an image, it will return an error
 function imageFilter(req: express.Request, file: Express.Multer.File, cb: Function) {
     if (file.mimetype.startsWith('image/')) {
+
         cb(null, true);
     } else {
         cb(new Error('Only image files are allowed!'), false);
@@ -53,6 +55,10 @@ export default function projectRouter(router: express.Router) {
         body("date").optional().toDate(),
         body("secret").trim().escape()
     ], upload.single('image'),createNewProject);
+    router.delete("/projects/delete/:name/:secret",[
+        param("name").trim().escape(),
+        param("secret").trim().escape()
+    ],deleteProject)
     return router;
 }
 

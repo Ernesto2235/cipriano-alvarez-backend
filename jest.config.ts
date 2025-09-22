@@ -6,6 +6,7 @@
 import type {Config} from 'jest';
 
 const config: Config = {
+  verbose:true,
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -67,10 +68,16 @@ const config: Config = {
   // globalTeardown: undefined,
 
   // A set of global variables that need to be available in all test environments
-  globals: {
-    "ts-jest":{
-      "useESM":true
-    }
+  // globals: {
+  //   "ts-jest":{
+  //     "useESM":true
+  //   }
+  // },
+  transform:{
+    "^.+\\.tsx?$": ["ts-jest", { useESM: true
+      ,transpilation:true
+     }],
+     '^.+\\.(js|jsx)$': 'babel-jest'
   },
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
@@ -91,7 +98,7 @@ const config: Config = {
   //   "mts",
   //   "cts",
      "tsx",
-  //   "json",
+     "json",
   //   "node"
    ],
 
@@ -100,6 +107,9 @@ const config: Config = {
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
+  transformIgnorePatterns:[
+    "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+  ],
 
   // Activates notifications for test results
   // notify: false,
@@ -202,6 +212,8 @@ const config: Config = {
   // watchman: true,
 
   extensionsToTreatAsEsm:[".*.ts"],
+  
+
 };
 
 export default config;

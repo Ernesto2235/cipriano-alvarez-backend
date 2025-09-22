@@ -1,7 +1,7 @@
 import express from "express";
-import authRouter from './authenticate';
-import projectRouter from './projectRouter';
-import imageRouter from "./imageRouter";
+import authRouter from './authenticate.ts';
+import projectRouter from './projectRouter.ts';
+import imageRouter from "./imageRouter.ts";
 
 const router = express.Router();
 

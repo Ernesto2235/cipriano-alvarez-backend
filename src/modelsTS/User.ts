@@ -29,14 +29,33 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 
 
 export async function createUser(email:string, password:string) {
-    
-    const  newUser  = await User.build({email: email, password: password});
-    await newUser.save();
-    console.log("User created successfully:", newUser);
-    return newUser;
+    try{
+        const  newUser  = await User.build({email: email, password: password});
+        await newUser.save();
+
+        return newUser;
+    }catch(error){
+        return error
+    }
+
 }
 export async function getUserByEmail(email: string) {
-    const user = await User.findOne({ where: { email } });
-    console.log("User found:", user);
-    return user;
+    try{
+        const user = await User.findOne({ where: { email } });
+
+        return user;
+    }catch(error){
+        return error
+    }
+
+}
+export async function deleteUserByEmail(email: string){
+    try{
+        const result = await User.destroy({where:{email:email}})
+        return result
+    }catch(error){
+        return error
+    }
+
+
 }
