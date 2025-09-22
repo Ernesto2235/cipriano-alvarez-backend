@@ -14,18 +14,18 @@
       name: Build and Deploy Backend for portfolio
       runs-on: ubuntu-24.04
       services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
-          MYSQL_DATABASE: portfolio
-          ports:
-            -3306:3306
-          options: >-
-            --health-cmd "mysqladmin ping -h 127.0.0.1 -u root -p${{secrets.MYSQL_ROOT_PASSWORD}}"
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 10
+        mysql:
+          image: mysql:8.0
+          env:
+            MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
+            MYSQL_DATABASE: portfolio
+            ports:
+              -3306:3306
+            options: >-
+              --health-cmd "mysqladmin ping -h 127.0.0.1 -u root -p${{secrets.MYSQL_ROOT_PASSWORD}}"
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 10
       steps:
         - name: checkout code
           uses: actions/checkout@v5
