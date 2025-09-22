@@ -11,13 +11,14 @@
       name: Build and Deploy Backend for portfolio
       runs-on: ubuntu-24.04
       services:
-        mysql:
+        mysql-db:
           image: mysql:8.0
+          ports:
+            -3306:3306
           env:
             MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
             MYSQL_DATABASE: portfolio
-            ports:
-              -3306:3306
+
             options: >-
               --health-cmd "mysqladmin ping --silent"
               --health-interval 10s
@@ -30,7 +31,7 @@
         - name: wait for mysql db to be ready
           run: |
             for i in $(seq 1 10); do
-              if nc -z localhost 3306; then
+              if nc -z mysql-db 3306; then
                 echo "MySQL is ready!"
                 break
               fi
@@ -47,7 +48,7 @@
         - name: Unit Tests
           run: npm install && npm test -- --runInBand
           env:
-            DB_HOST: localhost
+            DB_HOST: mysql-db
             DB_USER: root
             DB_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
             DB_NAME: portfolio
