@@ -9,7 +9,7 @@
     build-deploy:
 
       name: Build and Deploy Backend for portfolio
-      runs-on: latest
+      runs-on: ubuntu-latest
       services:
         mysql-db:
           image: mysql:8.0
