@@ -8,7 +8,7 @@ export async function getImage(req: Express.Request,res:Express.Response){
             return res.status(400).send("Filename is required");
         }
         const filename = req.params.filename;
-        const imagePath = process.env.IMAGE_PATH+filename
+        const imagePath = process.env.IMAGE_PATH+"/"+filename
 
         res.sendFile(imagePath,(err)=>{
             if(err){

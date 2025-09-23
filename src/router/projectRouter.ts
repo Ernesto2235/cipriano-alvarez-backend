@@ -12,7 +12,7 @@ import { param } from 'express-validator';
 // This will store uploaded files in the 'images' directory with a unique name
 const storage = multer.diskStorage({
     destination:(function(req,file,cb){
-        cb(null,'./images');
+        cb(null,process.env.IMAGE_PATH);
     }),
     filename:(function(req,file,cb){
         let ranInt: number = Math.floor(Math.random() * 1000000);
