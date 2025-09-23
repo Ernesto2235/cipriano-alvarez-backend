@@ -43,7 +43,7 @@
         - name: Import sql file
           run: mysql --host=0.0.0.0 --port=3306 -uroot -p${{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows/test.sql
         - name: find out container file structure
-          run: ls && pwd 
+
 
         - name: Setup Nodejs
           uses: actions/setup-node@v5
@@ -61,7 +61,7 @@
             APP_SECRET: helloworld123
             USER_EMAIL: crazyUser123@gmail.com
             USER_PASSWORD: Crazypassword123!
-            IMAGE_PATH: /home/runner/work/***-backend/***-backend/images
+            IMAGE_PATH: /home/runner/work/cipriano-alvarez-backend/cipriano-alvarez-backend/images
 
         - name: Build the application
           run: |
