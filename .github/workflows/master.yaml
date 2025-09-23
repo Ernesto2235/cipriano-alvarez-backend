@@ -42,7 +42,8 @@
             done
         - name: Import sql file
           run: mysql --host=0.0.0.0 --port=3306 -uroot -p${{secrets.MYSQL_ROOT_PASSWORD}} portfolio < ./.github/workflows/test.sql
-
+        - name: find out container file structure
+          run: ls && pwd 
 
         - name: Setup Nodejs
           uses: actions/setup-node@v5
