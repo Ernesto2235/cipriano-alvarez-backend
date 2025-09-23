@@ -61,7 +61,7 @@
             APP_SECRET: helloworld123
             USER_EMAIL: crazyUser123@gmail.com
             USER_PASSWORD: Crazypassword123!
-            IMAGE_PATH: /app/images
+            IMAGE_PATH: /home/runner/work/***-backend/***-backend/images
 
         - name: Build the application
           run: |
