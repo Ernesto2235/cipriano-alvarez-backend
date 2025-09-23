@@ -27,7 +27,7 @@ export async function getProject(req: express.Request, res: express.Response   )
     }
 }
 export async function getProjects(req: express.Request, res: express.Response) {
-    console.log("getProjects called");
+
     try {
         const {secret} = req.params;
         if(secret !== process.env.APP_SECRET || !secret){
@@ -103,6 +103,7 @@ export async function createNewProject(req: express.Request ,res: express.Respon
 
 export async function deleteProject(req: express.Request,res: express.Response){
     try{
+        console.log("deleting project")
         let result = validationResult(req);
         if(!result.isEmpty()){
             return res.status(400).json({errors: result.array()})
