@@ -2,6 +2,7 @@
 import  { DataTypes,Model,Sequelize, InferAttributes,InferCreationAttributes }  from '@sequelize/core';
 import { Attribute,PrimaryKey,AutoIncrement,NotNull,Table } from '@sequelize/core/decorators-legacy';
 import * as fs from "fs";
+import { S3Client, DeleteObjectCommand, S3 } from '@aws-sdk/client-s3';
 
 
 @Table({ tableName: 'projects' }) // Specify the table name if different
@@ -67,6 +68,22 @@ export async function deleteProjectByName(name: string){
     try{
         let project = await Project.findOne({where:{name:name}})
         let imagePath = process.env.IMAGE_PATH+"/"+project.img_url;
+        const client = new S3Client({
+            region:process.env.AWS_REGION,
+            credentials:{
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            }
+        })
+        try{
+            client.send(new DeleteObjectCommand({
+                    Bucket: process.env.S3_BUCKET_NAME,
+                    Key: project.img_url
+            }))
+        }catch(error){
+            console.log("error deleting picture from bucket")
+        }
+
         fs.unlink(imagePath,(err)=>{
             if(err){
                 console.log("error deleting file:",err)
