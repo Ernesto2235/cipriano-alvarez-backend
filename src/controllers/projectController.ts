@@ -3,8 +3,9 @@ import { getAllProjects } from "../modelsTS/ProjectModel.ts";
 import { createProject } from "../modelsTS/ProjectModel.ts";
 import { deleteProjectByName } from "../modelsTS/ProjectModel.ts";
 import express from "express";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import multer from "multer";
-import * as fs from "fs"
+import * as fs from "fs";
 import { validationResult } from "express-validator";
 
 export async function getProject(req: express.Request, res: express.Response   ) {
@@ -55,6 +56,7 @@ export async function createNewProject(req: express.Request ,res: express.Respon
             return res.status(400).json({error: "Image file is required"});
         }
         const filePath = file.path;
+        
 
         const result = validationResult(req);
         if(!result.isEmpty()){
@@ -66,6 +68,10 @@ export async function createNewProject(req: express.Request ,res: express.Respon
 
             return res.status(400).json({errors: result.array()})
         }
+
+
+
+
 
         const {name, description, url, date, secret} = req.body;
         
@@ -90,6 +96,34 @@ export async function createNewProject(req: express.Request ,res: express.Respon
             })
             return res.status(400).json({error:"Project description is required"});
         }
+
+
+
+        const imgfile = fs.readFileSync(file.path)
+        
+
+        try{
+            let client = new S3Client({
+                region:process.env.AWS_REGION,
+                credentials:{
+                    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+                }  
+            });
+            await client.send(new PutObjectCommand({
+                Bucket: process.env.S3_BUCKET_NAME,
+                Body: imgfile,
+                Key: file.filename
+
+            }))
+        }catch(e){
+            console.log(e.message)
+            fs.unlink(filePath,(error)=>{
+                console.log("error deleting file");
+            })
+            return res.status(400).json({error: "couldn't upload image to s3 bucket"})
+        }
+
         const newProject:any = await createProject(name, description,file.filename, url , date );
         if(newProject.status == 500 ){
             return res.status(500).json(newProject)

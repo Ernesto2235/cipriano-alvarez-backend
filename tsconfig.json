@@ -13,7 +13,8 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions":true,
-
+    "paths":{
+    }
   },
   "include": [
     "src/**/*"

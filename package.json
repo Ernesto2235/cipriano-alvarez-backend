@@ -12,6 +12,7 @@
   "author": "Cipriano Alvarez",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.957.0",
     "@babel/preset-typescript": "^7.27.1",
     "@sequelize/core": "^7.0.0-alpha.42",
     "@sequelize/mariadb": "^7.0.0-alpha.46",
@@ -23,7 +24,6 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/multer": "^2.0.0",
-    "@types/node": "^24.3.0",
     "@types/sequelize": "^4.28.20",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
@@ -50,7 +50,7 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.10.4",
     "@types/supertest": "^6.0.3",
     "babel-jest": "^30.1.2",
     "jest": "^30.1.1",
@@ -58,6 +58,16 @@
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.3",
     "ts-node": "^10.9.2",
+    "tslib": "^2.8.1",
     "typescript": "^5.9.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ernesto2235/cipriano-alvarez-backend.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Ernesto2235/cipriano-alvarez-backend/issues"
+  },
+  "homepage": "https://github.com/Ernesto2235/cipriano-alvarez-backend#readme"
 }
